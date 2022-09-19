@@ -1,0 +1,148 @@
+@using A_Little_Extra_System.Data.ViewModal;
+@using A_Little_Extra_System.Data.Static;
+@model Dashboard
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<section class="my-sm-5" style="display: block;">
+    <div class="container">
+        <div class="section-header d-flex mb-5">
+            <h1 class="h-02 flex-grow-1">Activities Posted</h1>
+            <a class="btn btn-primary btn-lg" asp-controller="Activity" asp-action="Create">Post Activity</a>
+        </div>
+        <div class="mb-5">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Activity name</th>
+                        <th scope="col">Start date</th>
+                        <th scope="col">End date</th>
+                        <th scope="col">Points</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.PostedActivities)
+			        {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.StartDate.ToString("dd MMM yyyy")</td>
+                            <td>@item.EndDate.ToString("dd MMM yyyy")</td>
+                            <td>@item.Points</td>
+                            <td>
+                                <a class="btn btn-primary btn-sm" asp-controller="Dashboard" asp-action="Progress" asp-route-id="@item.Id">Activity progress</a>
+                                <a class="btn btn-outline-primary btn-sm" asp-controller="Dashboard" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#activity-@item.Id">Cancel</a>
+                            </td>
+                        </tr>
+
+                        <div class="modal" id="activity-@item.Id" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content br-20 pd-20">
+                                        <div class="modal-header justify-content-center">
+                                            <h5 class="modal-title h-04 text-prim-color">Cancel activity</h5>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <p>Do you want to about to cancel your activity? All changes will be discarded.</p>
+                                        </div>
+                                        <div class="modal-footer justify-content-center">
+                                            <button type="button" class="btn btn-outline-primary w-100" data-bs-dismiss="modal">Close</button>
+                                            <a class="btn btn-primary w-100" asp-controller="Dashboard" asp-action="CancelActivity" asp-route-id="@item.Id">Confirm</a>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    }     
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+@if(User.IsInRole(UserRoles.Student) || User.IsInRole(UserRoles.DepartmentStaff)){
+<section class="my-sm-5" style="display: block;">
+    <div class="container">
+        <div class="section-header d-flex mb-5">
+            @if(User.IsInRole(UserRoles.Student)){
+                <h1 class="h-02 flex-grow-1">Activities Participating in</h1>
+            }else{
+                <h1 class="h-02 flex-grow-1">Activities Supervising</h1>
+            }
+        </div>
+        <div class="mb-5">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Activity name</th>
+                        <th scope="col">Start date</th>
+                        <th scope="col">End date</th>
+                        <th scope="col">Points</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.InvolvedActivities)
+			        {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.StartDate.ToString("dd MMM yyyy")</td>
+                            <td>@item.EndDate.ToString("dd MMM yyyy")</td>
+                            <td>@item.Points</td>
+                            <td>
+                                @if(User.IsInRole(UserRoles.Student)){
+                                    <a class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#participation-@item.Id">Cancel</a>
+                                }else{
+                                    <a class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#supervision-@item.Id">Cancel</a>
+                                }
+                            </td>
+                        </tr>
+
+                        if(User.IsInRole(UserRoles.Student)){
+                            <div class="modal" id="participation-@item.Id" tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content br-20 pd-20">
+                                            <div class="modal-header justify-content-center">
+                                                <h5 class="modal-title h-04 text-prim-color">Cancel participation</h5>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                <p>Are you sure you want to cancel your participation? This action can not be undone.</p>
+                                            </div>
+                                            <div class="modal-footer justify-content-center">
+                                                <button type="button" class="btn btn-outline-primary w-100" data-bs-dismiss="modal">Close</button>
+                                                <a class="btn btn-primary w-100" asp-action="CancelParticipation" asp-route-id="@item.Id">Confirm</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        }else{
+                            <div class="modal" id="supervision-@item.Id" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content br-20 pd-20">
+                                        <div class="modal-header justify-content-center">
+                                            <h5 class="modal-title h-04 text-prim-color">Cancel supervision</h5>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <p>Are you sure you want to cancel your supervision? This action can not be undone.</p>
+                                        </div>
+                                        <div class="modal-footer justify-content-center">
+                                            <button type="button" class="btn btn-outline-primary w-100" data-bs-dismiss="modal">Close</button>
+                                            <a class="btn btn-primary w-100" asp-controller="Dashboard" asp-action="CancelSupervision" asp-route-id="@item.Id">Confirm</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }  
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+}
+
+
+
+
+

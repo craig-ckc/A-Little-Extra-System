@@ -1,0 +1,112 @@
+@using A_Little_Extra_System.Data.Static
+@model Activity
+
+@{
+    ViewData["Title"] = "Activity Details";
+}
+
+<section class="my-sm-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="section-header d-flex mb-5">
+                    <h1 class="h-02 flex-grow-1">@Model.Name</h1>
+                </div>
+                <div class="mb-4">
+                    <h2 class="h-03 mb-3">Activity Description</h2>
+                    <p>@Model.Description</p>
+                </div>
+                <div class="info d-flex mb-5">
+                    <div class="info-item">
+                        <div class="text-grey-03">@Html.DisplayNameFor(model => model.Points)</div>
+                        <div class="h-04">@(Model.Points) points</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="text-grey-03">@Html.DisplayNameFor(model => model.StartDate)</div>
+                        <div class="h-04">@Model.StartDate.ToString("dd MMM yyyy")</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="text-grey-03">@Html.DisplayNameFor(model => model.EndDate)</div>
+                        <div class="h-04">@Model.StartDate.ToString("dd MMM yyyy")</div>
+                    </div>
+                </div>
+                <div class="mb-5">
+                    @if (User.IsInRole(UserRoles.Student))
+                    {
+                        <a class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#participate-@Model.Id">Participate</a>
+                    }
+                    else if (User.IsInRole(UserRoles.DepartmentStaff))
+                    {
+                        <a class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#supervise-@Model.Id">Supervise</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Index" class="btn btn-primary">Return to activities</a>
+                    }
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="section-header d-flex mb-5">
+                    <h1 class="h-04 flex-grow-1">Awards</h1>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Award name</th>
+                            <th scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Award != null)
+                        {
+                            foreach (var item in Model.Award)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td>@item.Description</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<div class="modal" id="participate-@Model.Id" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content br-20 pd-20">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title h-04 text-prim-color">Participate</h5>
+            </div>
+            <div class="modal-body text-center">
+                <p>You are about to be added as a participant to the Activity @Model.Name.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-outline-primary w-100" data-bs-dismiss="modal">Close</button>
+                <a class="btn btn-primary w-100" asp-action="AddParticipant" asp-route-id="@Model.Id">Confirm</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="supervise-@Model.Id" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content br-20 pd-20">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title h-04 text-prim-color">Supervise</h5>
+            </div>
+            <div class="modal-body text-center">
+                <p>You are about to be added as a supervisor to the Activity @Model.Name.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-outline-primary w-100" data-bs-dismiss="modal">Close</button>
+                <a class="btn btn-primary w-100" asp-action="AddSupervisor" asp-route-id="@Model.Id">Confirm</a>
+            </div>
+        </div>
+    </div>
+</div>

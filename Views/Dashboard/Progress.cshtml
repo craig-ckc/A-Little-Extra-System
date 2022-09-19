@@ -1,0 +1,89 @@
+@using A_Little_Extra_System.Data.ViewModal;
+@using A_Little_Extra_System.Data.Static;
+@model ActivityProgress
+
+@{
+    ViewData["Title"] = "Activity Progress";
+}
+
+<section class="my-sm-5">
+    <div class="container">
+        <div class="section-header d-flex mb-5">
+            <h1 class="h-02 flex-grow-1">Activity Details - @Model.Activity.Name</h1>
+        </div>
+        <div class="">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="participants-tab" data-bs-toggle="tab"
+                        data-bs-target="#participants" type="button" role="tab" aria-controls="home"
+                        aria-selected="true">Participants</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="superviosrs-tab" data-bs-toggle="tab" data-bs-target="#superviosrs"
+                        type="button" role="tab" aria-controls="superviosrs" aria-selected="false">Superviosrs</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="participants" role="tabpanel"
+                    aria-labelledby="participants-tab">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Participant name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Phone</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Participants)
+                            {
+                                <tr>
+                                    <td>@item.FirstName @item.LastName</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.PhoneNumber</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="superviosrs" role="tabpanel" aria-labelledby="superviosrs-tab">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Superviosrs name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Supervisors)
+                            {
+                                <tr>
+                                    <td>@item.FirstName @item.LastName</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.PhoneNumber</td>
+                                    <tb>
+                                        if(item.Accept == null){
+                                            <a class="btn btn-primary btn-sm">Accept</a>
+                                            <a class="btn btn-outline-primary btn-sm">Reject</a>
+                                        }
+                                    </tb>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row mt-5 mt-auto">
+                <div class="col-md-2">
+                    <a type="submit" class="btn btn-outline-primary w-100" data-bs-toggle="modal"
+                        data-bs-target="#cancel-activity">Cancel activity</a>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">Edit activity</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,118 @@
+@using A_Little_Extra_System.Data.ViewModal
+@using A_Little_Extra_System.Data.Enums
+@model Register
+
+@{
+    ViewData["Title"] = "Sign up for a new account";
+}
+
+<div class="container mt-5 mb-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6">
+            <div class="card px-5 py-5" id="form1">
+                <div class="text-center mb-5">
+                    <h5 class="modal-title h-02 text-prim-color">Welcome</h5>
+                </div>
+
+                @if (TempData["Error"] != null)
+                {
+                    <div class="col-md-12 alert alert-danger">
+                        <span><b>Sorry!</b> - @TempData["Error"] </span>
+                    </div>
+                }
+                else if (TempData["Success"] != null)
+                {
+                    <div class="col-md-12 alert alert-success">
+                        <span><b>Success</b> - @TempData["Success"] </span>
+                    </div>
+                }
+
+                <form asp-action="Register" class="row g-3">
+                    <div class="col-md-12">
+                        <select asp-for="UserRole" class="form-select" aria-label="Default select example" id="UserRoll"
+                            asp-items="Html.GetEnumSelectList<Users>()"></select>
+                    </div>
+
+                    <div class="col-md-12" id="PName-group" style="display: none;">
+                        <label asp-for="PatnerName" class="form-label">Patner Name</label>
+                        <input asp-for="PatnerName" type="text" class="form-control" id="PatnerName"
+                            placeholder="Patner Name">
+                        <span asp-validation-for="PatnerName" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6" id="FName-group">
+                        <label asp-for="FirstName" class="form-label">First Name</label>
+                        <input asp-for="FirstName" type="text" class="form-control" id="FirstName"
+                            placeholder="First Name">
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6" id="LName-group">
+                        <label asp-for="LastName" class="form-label">Last name</label>
+                        <input asp-for="LastName" type="text" class="form-control" id="LastName"
+                            placeholder="Last Name">
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Email" class="form-label">Email</label>
+                        <input asp-for="Email" type="text" class="form-control" placeholder="user@alittleextra.com">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="PhoneNumber" class="form-label">Phone</label>
+                        <input asp-for="PhoneNumber" type="text" class="form-control" id="Phone" placeholder="Phone">
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Password" class="form-label">Password</label>
+                        <input asp-for="Password" type="password" class="form-control" id="Phone"
+                            placeholder="Password">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                        <input asp-for="ConfirmPassword" type="password" class="form-control" id="Phone"
+                            placeholder="Confirm Password">
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-12 ">
+                        <input class="btn btn-primary mb-2 w-100" type="submit" value="Register" />
+                        <div class="text-center w-100">
+                            <p>Already have an account? <a asp-area="" asp-controller="Account" asp-action="Login"
+                                    class="special-text">Sign in now</a><br>or continue as a <a asp-area=""
+                                    asp-controller="Home" asp-action="Index" class="special-text">guest</a></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+<script>
+    $("#PatnerName").val("_")
+
+    $("#UserRoll").on("change", function () {
+        if ($(this).find(":selected").text() == "UniversityPartner") {
+            $("#PName-group").css("display", "block")
+            $("#FName-group").css("display", "none")
+            $("#LName-group").css("display", "none")
+
+            $("#FirstName").val("_")
+            $("#LastName").val("_")
+        } else {
+            $("#PName-group").css("display", "none")
+            $("#FName-group").css("display", "block")
+            $("#LName-group").css("display", "block")
+
+            $("#PatnerName").val("_")
+        }
+    })
+</script>
+}
