@@ -1,0 +1,159 @@
+@using A_Little_Extra_System.Data.Static
+@using A_Little_Extra_System.Data.ViewModal;
+@model ProfileUpdate
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<section class="my-sm-5">
+    <div class="container">
+        <form asp-action="Update" class="row">
+            <div class="col-md-6">
+                <div class="section-header d-flex mb-5">
+                    <h1 class="h-02 flex-grow-1">Profile</h1>
+                </div>
+                <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-5">
+                    <div class="d-flex">
+                        <div>
+                            <div class="user-profile rounded-circle">
+                                <img class="image-preview"></img>
+                                <div class="avarta-indicator"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="d-flex justify-content-center">
+                            <a class="btn btn-outline-primary" data-bs-toggle="modal"
+                                data-bs-target="#delete-profile-image">Delete</a>
+                            <a class="btn btn-primary ms-3" data-bs-toggle="modal"
+                                data-bs-target="#new-profile-image">New photo</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-3">
+                    @if (User.IsInRole(UserRoles.UniversityPartner))
+                    {
+                        <div class="col-md-12">
+                            <label  asp-for="PatnerName" class="form-label">Patner Name</label>
+                            <input  asp-for="PatnerName" type="text" class="form-control">
+                            <span asp-validation-for="PatnerName" class="text-danger"></span>
+                        </div>
+                        
+                        <input type="hidden" asp-for="FirstName"/>
+                        <input type="hidden" asp-for="LastName"/>
+                    }
+                    else
+                    {
+                        <input type="hidden" asp-for="PatnerName"/>
+
+                        <div class="col-md-6">
+                            <label asp-for="FirstName" class="form-label">First Name</label>
+                            <input asp-for="FirstName"class="form-control">
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="LastName" class="form-label">Last Name</label>
+                            <input asp-for="LastName" class="form-control" >
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                    }
+                    <div class="col-md-6">
+                        <label asp-for="Email" class="form-label">Email</label>
+                        <input asp-for="Email" type="email" class="form-control" >
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label  asp-for="PhoneNumber" class="form-label">Phone number</label>
+                        <input  asp-for="PhoneNumber" type="phone" class="form-control">
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-12">
+                        <label  asp-for="CurrentPassword" class="form-label">Current Password</label>
+                        <input  asp-for="CurrentPassword" type="password" class="form-control">
+                        <span asp-validation-for="CurrentPassword" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label  asp-for="Password" class="form-label">Password</label>
+                        <input  asp-for="Password" type="password" class="form-control">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="ConfirmPassword" class="form-label">Confirm password</label>
+                        <input asp-for="ConfirmPassword" type="password" class="form-control">
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-12 mt-5">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button class="btn btn-outline-primary w-100" data-bs-toggle="modal"
+                                    data-bs-target="#cancel">Cancel</button>
+                            </div>
+                            <div class="col-md-6">
+                                <input class="btn btn-primary w-100" type="submit" value="Save changes" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal" id="delete-profile-image" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content br-20 pd-20">
+                        <div class="modal-header justify-content-center">
+                            <h5 class="modal-title h-04 text-prim-color">Delete profile image</h5>
+                        </div>
+                        <div class="modal-body text-center">
+                            <p>Are you sure you want to delete your profile image?</p>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <a class="btn btn-outline-primary w-100"
+                                data-bs-dismiss="modal">Close</a>
+                            <a class="btn btn-primary w-100">Confirm</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal" id="new-profile-image" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content br-20 pd-20">
+                        <div class="modal-header justify-content-center">
+                            <h5 class="modal-title h-04 text-prim-color">New profile image</h5>
+                        </div>
+                        <div class="modal-body text-center">
+                            <div class="d-flex w-100 justify-content-center">
+                            <div class="user-profile rounded-circle">
+                                <img class="image-preview-form"></img>
+                            </div>
+                        </div>
+                            <p>Enter new profile image url</p>
+                            <div>
+                                <input asp-for="ImgUrl" class="form-control" id="ProfilePictureURL">
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <a class="btn btn-outline-primary w-100"
+                                data-bs-dismiss="modal">Close</a>
+                            <a class="btn btn-primary w-100">Confirm</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts{ 
+    <script>
+        $(document).ready(function () {
+            $(".image-preview").attr("src", $("#ProfilePictureURL").val())
+            $(".image-preview-form").attr("src", $("#ProfilePictureURL").val())
+        })
+        $("#ProfilePictureURL").on("change", function () {
+            $(".image-preview").attr("src", $(this).val())
+            $(".image-preview-form").attr("src", $(this).val())
+            console.log("working")
+        })
+    </script>
+}

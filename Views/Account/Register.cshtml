@@ -62,21 +62,20 @@
 
                     <div class="col-md-6">
                         <label asp-for="PhoneNumber" class="form-label">Phone</label>
-                        <input asp-for="PhoneNumber" type="text" class="form-control" id="Phone" placeholder="Phone">
+                        <input asp-for="PhoneNumber" type="tel" class="form-control"
+                        placeholder="+27 13 373 4253" pattern="+[0-9]{2} [0-9]{2} [0-9]{3} [0-9]{4} | +[0-9]{2}[0-9]{2}[0-9]{3}[0-9]{4}">
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
 
                     <div class="col-md-6">
                         <label asp-for="Password" class="form-label">Password</label>
-                        <input asp-for="Password" type="password" class="form-control" id="Phone"
-                            placeholder="Password">
+                        <input asp-for="Password" type="password" class="form-control" placeholder="Password">
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
 
                     <div class="col-md-6">
                         <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
-                        <input asp-for="ConfirmPassword" type="password" class="form-control" id="Phone"
-                            placeholder="Confirm Password">
+                        <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm Password">
                         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     </div>
 

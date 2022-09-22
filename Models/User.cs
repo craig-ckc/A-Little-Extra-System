@@ -5,6 +5,8 @@ namespace A_Little_Extra_System.Models
 {
     public class User:IdentityUser
     {
+        // public string ImgUrl { get; set; }
+        
         public string? FirstName { get; set; }
 
         public int? DepartmentID { get; set; }

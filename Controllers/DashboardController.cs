@@ -45,8 +45,10 @@ namespace A_Little_Extra_System.Controllers
             return View(data);
         }
 
-        public async Task<IActionResult> Progress(int Id){
-            var progress = new ActivityProgress{
+        public async Task<IActionResult> Progress(int Id)
+        {
+            var progress = new ActivityProgress
+            {
                 Activity = await activityService.GetByIdAsync(Id),
                 Supervisors = await supervisorService.GetActivitySupervisors(Id),
                 Participants = await participantService.GetActivityPaticipants(Id)
@@ -55,12 +57,14 @@ namespace A_Little_Extra_System.Controllers
             return View(progress);
         }
 
-        public async Task<IActionResult> Edit(int Id){
+        public async Task<IActionResult> Edit(int Id)
+        {
             var activity = await activityService.GetByIdAsync(Id);
 
             activity.Award = await awardsService.GetAwards(Id);
 
-            var activity_ = new ActivityForm{
+            var activity_ = new ActivityForm
+            {
                 Id = activity.Id,
                 UserId = activity.UserId,
                 Name = activity.Name,
@@ -72,11 +76,6 @@ namespace A_Little_Extra_System.Controllers
             };
 
             return View(activity_);
-        }
-
-        public async Task<IActionResult> CancelActivity(int Id){
-            await activityService.DeleteAsync(Id);
-            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
@@ -108,12 +107,27 @@ namespace A_Little_Extra_System.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> CancelParticipation(int Id){
+        // TODO: Find a way to remove the award from the database or from list depending if it's already added to the database
+        [HttpPost]
+        public async Task<IActionResult> RemoveAward(int Id)
+        {
+            return RedirectToAction();
+        }
+
+        public async Task<IActionResult> CancelActivity(int Id)
+        {
+            await activityService.DeleteAsync(Id);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> CancelParticipation(int Id)
+        {
             await participantService.DeleteParticipant(Id, User.FindFirstValue(ClaimTypes.NameIdentifier));
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> CancelSupervision(int Id){
+        public async Task<IActionResult> CancelSupervision(int Id)
+        {
             await supervisorService.DeleteSupervisor(Id, User.FindFirstValue(ClaimTypes.NameIdentifier));
             return RedirectToAction(nameof(Index));
         }

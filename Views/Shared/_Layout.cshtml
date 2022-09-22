@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using A_Little_Extra_System.Models
+
+@inject UserManager<User> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -12,6 +17,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/A_Little_Extra_System.styles.css" asp-append-version="true" />
@@ -80,13 +87,16 @@
                             <li class="nav-item">
                                 <a class="nav-link text-white" asp-area="" asp-controller="Dashboard"
                                 asp-action="Index">Dashboard</a>
-                            </li> 
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link text-white" asp-area="" asp-controller="Profile"
                                 asp-action="Index">Profile</a>
                             </li>
                         }
                     </ul>
+                    <AuthorizeView>
+                        <Authorized></Authorized>
+                    </AuthorizeView>
                     @if (!User.Identity.IsAuthenticated)
                     {
                         <div class="modal-footer">
@@ -99,12 +109,14 @@
                     else
                     {
 
-                        <div class="modal-footer">
+                        <a class="modal-footer" asp-controller="Profile" asp-action="Index">
+                            <div class="user-profile nav-prof rounded-circle">
+                                @* <img class="image-preview"></img> *@
+                            </div>
                             <p class="nav-link text-white">
-                                @User.Identity.Name
+                                @UserManager.GetUserAsync(User).Result
                             </p>
-                            <a asp-area="" asp-controller="Account" asp-action="Logout" class="btn btn-primary">Logout</a>
-                        </div>
+                        </a>
                     }
                 </div>
             </div>
@@ -129,6 +141,14 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    @section Scripts{
+    <script>
+        $('form input').on('keypress', function (e) {
+            return e.which !== 13;
+        });
+    </script>
+    }
 </body>
 
 </html>

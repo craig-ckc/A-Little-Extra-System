@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<User>
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -6,8 +7,8 @@
     <div class="container">
         <div class="hero-content d-flex flex-column align-items-start justify-content-center">
             <h1 class="h-01">Do a little extra for the community</h1>
-            <a class="btn btn-primary btn-lg mt-5" asp-area="" asp-controller="Activities" asp-action="Index">Call to
-                action<i class="bi bi-arrow-right"></i></a>
+            <a class="btn btn-primary btn-lg mt-5" asp-area="" asp-controller="Activity" asp-action="Index">View
+                Activities<i class="bi bi-arrow-right"></i></a>
         </div>
     </div>
 </section>
@@ -23,12 +24,12 @@
                             d="M13.0232 2.46467C12.0411 3.30153 10.8202 3.80728 9.53403 3.90991C6.53271 4.14942 4.14942 6.53271 3.90991 9.53403C3.80728 10.8202 3.30153 12.0411 2.46467 13.0232C0.511776 15.3148 0.511776 18.6852 2.46467 20.9768C3.30153 21.9589 3.80728 23.1798 3.90991 24.466C4.14942 27.4673 6.53271 29.8506 9.53403 30.0901C10.8202 30.1927 12.0411 30.6985 13.0232 31.5353C15.3148 33.4882 18.6852 33.4882 20.9768 31.5353C21.9589 30.6985 23.1798 30.1927 24.466 30.0901C27.4673 29.8506 29.8506 27.4673 30.0901 24.466C30.1927 23.1798 30.6985 21.9589 31.5353 20.9768C33.4882 18.6852 33.4882 15.3148 31.5353 13.0232C30.6985 12.0411 30.1927 10.8202 30.0901 9.53403C29.8506 6.53271 27.4673 4.14942 24.466 3.90991C23.1798 3.80728 21.9589 3.30153 20.9768 2.46467C18.6852 0.511776 15.3148 0.511776 13.0232 2.46467Z"
                             stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
-                    <span>1</span>
+                    <span>2</span>
                 </div>
                 <div class="card-body align-items-center c-card-body">
                     <div class="profile-p rounded-circle mb-4"></div>
-                    <h5 class="card-title h-04">Special title treatment</h5>
-                    <p class="card-text text-grey-03">230 Points.</p>
+                    <h5 class="card-title h-04">@Model[1].FirstName @Model[1].LastName</h5>
+                    <p class="card-text text-prim-color">@Model[1].Points Points.</p>
                 </div>
             </div>
             <div class="card text-center align-items-center ranker-card ranker-01">
@@ -42,8 +43,8 @@
                 </div>
                 <div class="card-body align-items-center c-card-body">
                     <div class="profile-p rounded-circle mb-4"></div>
-                    <h5 class="card-title h-04">Special title treatment</h5>
-                    <p class="card-text text-prim-color">230 Points.</p>
+                    <h5 class="card-title h-04">@Model[0].FirstName @Model[0].LastName</h5>
+                    <p class="card-text text-prim-color">@Model[0].Points Points.</p>
                 </div>
             </div>
             <div class="card text-center align-items-center ranker-card">
@@ -53,12 +54,12 @@
                             d="M13.0232 2.46467C12.0411 3.30153 10.8202 3.80728 9.53403 3.90991C6.53271 4.14942 4.14942 6.53271 3.90991 9.53403C3.80728 10.8202 3.30153 12.0411 2.46467 13.0232C0.511776 15.3148 0.511776 18.6852 2.46467 20.9768C3.30153 21.9589 3.80728 23.1798 3.90991 24.466C4.14942 27.4673 6.53271 29.8506 9.53403 30.0901C10.8202 30.1927 12.0411 30.6985 13.0232 31.5353C15.3148 33.4882 18.6852 33.4882 20.9768 31.5353C21.9589 30.6985 23.1798 30.1927 24.466 30.0901C27.4673 29.8506 29.8506 27.4673 30.0901 24.466C30.1927 23.1798 30.6985 21.9589 31.5353 20.9768C33.4882 18.6852 33.4882 15.3148 31.5353 13.0232C30.6985 12.0411 30.1927 10.8202 30.0901 9.53403C29.8506 6.53271 27.4673 4.14942 24.466 3.90991C23.1798 3.80728 21.9589 3.30153 20.9768 2.46467C18.6852 0.511776 15.3148 0.511776 13.0232 2.46467Z"
                             stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
-                    <span>1</span>
+                    <span>3</span>
                 </div>
                 <div class="card-body align-items-center c-card-body">
                     <div class="profile-p rounded-circle mb-4"></div>
-                    <h5 class="card-title h-04">Special title treatment</h5>
-                    <p class="card-text text-grey-03">230 Points.</p>
+                    <h5 class="card-title h-04">@Model[2].FirstName @Model[2].LastName</h5>
+                    <p class="card-text text-prim-color">@Model[2].Points Points.</p>
                 </div>
             </div>
         </div>

@@ -49,7 +49,6 @@ namespace A_Little_Extra_System.Controllers
 
             TempData["Error"] = "Wrong credentials. Please, try again!";
             return View(login);
-
         }
 
         public IActionResult Register()

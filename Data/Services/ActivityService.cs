@@ -57,7 +57,7 @@ namespace A_Little_Extra_System.Data.Service
     
         public async Task<List<Activity>> PostedHistory(string userId)
         {
-            var activities = context.Activity.Where(n => n.ActivityParticipation.Any(m => m.UserId == userId)).Where(a => a.EndDate < DateTime.Now).ToList();
+            var activities = context.Activity.Where(n => n.UserId == userId).Where(a => a.EndDate < DateTime.Now).ToList();
 
             return activities;
         }

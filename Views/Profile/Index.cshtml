@@ -6,3 +6,136 @@
     ViewData["Title"] = "Profile";
 }
 
+<section class="my-sm-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-5">
+            <div class="d-flex">
+                <div>
+                    <div class="user-profile rounded-circle">
+                        <img class="image-preview"></img>
+                        <div class="avarta-indicator"></div>
+                    </div>
+                </div>
+                <div class="ms-3">
+                    @if (User.IsInRole(UserRoles.Student) || User.IsInRole(UserRoles.DepartmentStaff))
+                    {
+                        <h1 class="h-02 mb-3">@Model.User.FirstName @Model.User.LastName</h1>
+                    }
+                    else
+                    {
+                        <h1 class="h-02 mb-3">@Model.User.PatnerName</h1>
+                    }
+                    <div class="d-flex">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-envelope"></i>
+                            <span class="ms-2">@Model.User.Email</span>
+                        </div>
+                        <div class="d-flex align-items-center ms-5">
+                            <i class="fa-solid fa-phone"></i>
+                            <span class="ms-2">@Model.User.PhoneNumber</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (User.IsInRole(UserRoles.Student))
+            {
+                <div>
+                    <h2 class="h-02">@Model.User.Points Points</h2>
+                </div>
+            }
+            <div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-outline-primary w-100" data-bs-toggle="modal"
+                        data-bs-target="#logout">Logout</button>
+                    <a class="btn btn-primary w-100 ms-3" asp-action="Update">Update</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="section-header d-flex mb-5">
+                    <h1 class="h-04 flex-grow-1">Posted activity history </h1>
+                </div>
+                <div class="mb-5">
+                    <table class="table" id="myTable">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable(0)">Activity name <i class="fa-solid fa-sort"></i>
+                                </th>
+                                <th onclick="sortTable(1)">Start date <i class="fa-solid fa-sort"></i></th>
+                                <th onclick="sortTable(2)">End date <i class="fa-solid fa-sort"></i></th>
+                                <th onclick="sortTable(3)">Points <i class="fa-solid fa-sort"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.PostedHistory)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td>@item.StartDate.ToString("dd MMM yyyy")</td>
+                                    <td>@item.EndDate.ToString("dd MMM yyyy")</td>
+                                    <td>@item.Points</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            @if (User.IsInRole(UserRoles.Student) || User.IsInRole(UserRoles.DepartmentStaff))
+            {
+                <div class="col-md-6">
+                    <div class="section-header d-flex mb-5">
+                        @if (User.IsInRole(UserRoles.Student))
+                        {
+                            <h1 class="h-04 flex-grow-1">Participation history</h1>
+                        }
+                        else
+                        {
+                            <h1 class="h-04 flex-grow-1">Supervision history</h1>
+                        }
+                    </div>
+                    <div class="mb-5">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Activity name <i class="fa-solid fa-sort"></i></th>
+                                    <th scope="col">Start date <i class="fa-solid fa-sort"></i></th>
+                                    <th scope="col">End date <i class="fa-solid fa-sort"></i></th>
+                                    <th scope="col">Points <i class="fa-solid fa-sort"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.OtherHistory)
+                                {
+                                    <tr>
+                                        <td>@item.Name</td>
+                                        <td>@item.StartDate.ToString("dd MMM yyyy")</td>
+                                        <td>@item.EndDate.ToString("dd MMM yyyy")</td>
+                                        <td>@item.Points</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<div class="modal" id="logout" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content br-20 pd-20">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title h-04 text-prim-color">Logout</h5>
+            </div>
+            <div class="modal-body text-center">
+                <p>You are about to be logged out.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-outline-primary w-100" data-bs-dismiss="modal">Close</button>
+                <a class="btn btn-primary w-100" asp-controller="Account" asp-action="Logout">Confirm</a>
+            </div>
+        </div>
+    </div>
+</div>

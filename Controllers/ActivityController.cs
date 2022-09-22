@@ -35,7 +35,7 @@ namespace A_Little_Extra_System.Controllers
         //Get: Actors/Create
         public IActionResult Create()
         {
-            return View(new ActivityForm());
+            return View(new ActivityForm{StartDate = DateTime.Today, EndDate = DateTime.Today});
         }
 
 

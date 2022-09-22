@@ -1,4 +1,5 @@
-﻿using A_Little_Extra_System.Models;
+﻿using A_Little_Extra_System.Data;
+using A_Little_Extra_System.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -8,14 +9,19 @@ namespace A_Little_Extra_System.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly AppDbContext context;
+
+        public HomeController(ILogger<HomeController> logger, AppDbContext context)
         {
             _logger = logger;
+            this.context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var topStudents = context.User.OrderByDescending(u => u.Points).Take(3).ToList();
+            
+            return View(topStudents);
         }
 
         public IActionResult Privacy()
