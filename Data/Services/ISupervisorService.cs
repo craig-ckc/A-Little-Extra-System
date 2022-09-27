@@ -12,5 +12,7 @@ namespace A_Little_Extra_System.Data.Service
         Task<List<Activity>> GetActivitiesSupervising(string userId);
 
         Task<List<User>> GetActivitySupervisors(int Id);
+
+        Task<List<ActivitySupervision>> GetActivitySupervisorsStatus(int Id);
     }
 }

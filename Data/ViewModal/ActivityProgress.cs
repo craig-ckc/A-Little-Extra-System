@@ -9,5 +9,7 @@ namespace A_Little_Extra_System.Data.ViewModal
         public List<User> Participants { get; set; }
 
         public List<User> Supervisors { get; set; }
+
+        public List<ActivitySupervision> SupervisorsStatus { get; set; }
     }
 }

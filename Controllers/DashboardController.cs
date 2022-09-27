@@ -45,18 +45,26 @@ namespace A_Little_Extra_System.Controllers
             return View(data);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Progress(int Id)
         {
             var progress = new ActivityProgress
             {
                 Activity = await activityService.GetByIdAsync(Id),
+                Participants = await participantService.GetActivityPaticipants(Id),
                 Supervisors = await supervisorService.GetActivitySupervisors(Id),
-                Participants = await participantService.GetActivityPaticipants(Id)
+                SupervisorsStatus = await supervisorService.GetActivitySupervisorsStatus(Id),
             };
 
             return View(progress);
         }
 
+        // public async Task<IActionResult> RejectSupervision(int Id){
+        //     await supervisorService.DeleteSupervisor(Id, User.FindFirstValue(ClaimTypes.NameIdentifier));
+        //     return RedirectToAction(nameof(Index));
+        // }
+
+        [HttpGet]
         public async Task<IActionResult> Edit(int Id)
         {
             var activity = await activityService.GetByIdAsync(Id);
@@ -73,6 +81,7 @@ namespace A_Little_Extra_System.Controllers
                 EndDate = activity.EndDate,
                 Points = activity.Points,
                 Awards = activity.Award,
+                AwardPos = -1,
             };
 
             return View(activity_);
@@ -100,18 +109,41 @@ namespace A_Little_Extra_System.Controllers
                 return View(data);
             }
 
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (data.AwardPos != -1)
+            {
+                data.AwardPos = -1;
+                return View(data);
+            }
+            
+            await activityService.UpdateActivityAsync(data, User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            // TODO: implement service method that updates activity and records using the
-            await activityService.NewActivityAsync(data, userId);
             return RedirectToAction(nameof(Index));
         }
 
-        // TODO: Find a way to remove the award from the database or from list depending if it's already added to the database
         [HttpPost]
-        public async Task<IActionResult> RemoveAward(int Id)
+        public async Task<IActionResult> RemoveAward(ActivityForm data)
         {
-            return RedirectToAction();
+            if (data.AwardPos == -1) return RedirectToAction(nameof(Edit), new {data = data});
+        
+            var award = data.Awards[data.AwardPos];
+
+            data.Awards.RemoveAt(data.AwardPos);
+
+            if (award.Id > 1) await awardsService.DeleteAsync(award.Id);
+
+            return RedirectToAction(nameof(Edit), new {Id = data.Id});
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditAward(ActivityForm data)
+        {
+            if (data.AwardPos == -1) return RedirectToAction(nameof(Edit), new {data = data});
+        
+            var award = data.Awards[data.AwardPos];
+
+            if (award.Id > 1) await awardsService.UpdateAsync(award.Id, award);
+
+            return RedirectToAction(nameof(Edit), new {Id = data.Id});
         }
 
         public async Task<IActionResult> CancelActivity(int Id)

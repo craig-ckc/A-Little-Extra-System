@@ -618,3 +618,15 @@ td {
   height: 100%;
   object-fit: cover;
 }
+.defualt-btn{
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  color: currentColor;
+}
+
+.btn>i {
+  margin-left: 0px;
+}
+.form-control{
+  border-radius: 0.75rem;
+}

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace A_Little_Extra_System.Data.Service
 {
-    public class AwardService : EntityBaseRepository<Activity>, IAwardService
+    public class AwardService : EntityBaseRepository<Award>, IAwardService
     {
         private readonly AppDbContext context;
 

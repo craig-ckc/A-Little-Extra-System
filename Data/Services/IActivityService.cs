@@ -8,6 +8,8 @@ namespace A_Little_Extra_System.Data.Service
     {
         Task NewActivityAsync(ActivityForm data, String userId);
 
+        Task UpdateActivityAsync(ActivityForm data, String userId);
+
         Task<List<Activity>> GetPostedActivities(String userId);
 
         Task<List<Activity>> PostedHistory(string userId);

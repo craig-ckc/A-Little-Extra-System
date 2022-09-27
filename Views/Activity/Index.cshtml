@@ -9,6 +9,14 @@
 	<div class="container">
 		<div class="section-header d-flex mb-5">
 			<h1 class="h-02 flex-grow-1">Available activities </h1>
+			<form class="form-inline my-2 my-lg-0" asp-action="Filter" style="padding-right: 25px;">
+				<div class="input-group">
+					<input name="searchString" type="text" class="form-control" placeholder="Search for an activity..." >
+					<div class="input-group-append">
+						<button class="btn btn-outline-primary defualt-btn" type="submit"><i class="bi bi-search"></i></button>
+					</div>
+				</div>
+			</form>
 			@if (User.Identity.IsAuthenticated)
 			{
 				<a class="btn btn-primary btn-lg" asp-controller="Activity" asp-action="Create">Post Activity</a>
@@ -32,14 +40,17 @@
 							</div>
 							<p class="card-text mb-4">@item.Description</p>
 							<div class="">
-								<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary mr-3">View details</a>
+								<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary mr-3">View
+									details</a>
 								@if (User.IsInRole(UserRoles.Student))
 								{
-									<a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#participate-@item.Id">Participate</a>
+									<a class="btn btn-primary" data-bs-toggle="modal"
+							data-bs-target="#participate-@item.Id">Participate</a>
 								}
 								else if (User.IsInRole(UserRoles.DepartmentStaff))
 								{
-									<a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#supervise-@item.Id">Supervise</a>
+									<a class="btn btn-primary" data-bs-toggle="modal"
+							data-bs-target="#supervise-@item.Id">Supervise</a>
 								}
 							</div>
 						</div>
@@ -56,7 +67,8 @@
 								</div>
 								<div class="modal-footer justify-content-center">
 									<a class="btn btn-outline-primary w-100" data-bs-dismiss="modal">Close</a>
-									<a class="btn btn-primary w-100" asp-action="AddParticipant" asp-route-id="@item.Id">Confirm</a>
+									<a class="btn btn-primary w-100" asp-action="AddParticipant"
+								asp-route-id="@item.Id">Confirm</a>
 								</div>
 							</div>
 						</div>
@@ -73,7 +85,8 @@
 								</div>
 								<div class="modal-footer justify-content-center">
 									<a class="btn btn-outline-primary w-100" data-bs-dismiss="modal">Close</a>
-									<a class="btn btn-primary w-100" asp-action="AddSupervisor" asp-route-id="@item.Id">Confirm</a>
+									<a class="btn btn-primary w-100" asp-action="AddSupervisor"
+								asp-route-id="@item.Id">Confirm</a>
 								</div>
 							</div>
 						</div>

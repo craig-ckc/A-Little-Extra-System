@@ -10,7 +10,8 @@
         <div class="section-header d-flex mb-5">
             <h1 class="h-02 flex-grow-1">Activity Details</h1>
         </div>
-        <form id="form" class="row" asp-action="Create">
+        <form id="form" class="row" asp-action="Edit" asp-route-id="@Model.Id">
+            <input type="hidden" asp-for="@Model.Id" />
             <div class="col-md-7">
                 <div class="section-header d-flex mb-5">
                     <h1 class="h-04 flex-grow-1">Form</h1>
@@ -108,6 +109,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <input id="award-pos" type="hidden" asp-for="@Model.AwardPos" />
                         @if (Model.Awards != null)
                         {
                             for (int i = 0; i < Model.Awards.Count; i++)
@@ -116,11 +118,14 @@
                                     <td>@Model.Awards[i].Name</td>
                                     <td>@Model.Awards[i].Description</td>
                                     <td>
-                                        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#edit-award-@i">Edit</a>
-                                        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#remove-award">Remove</a>
+                                        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" onClick="$('#award-pos').val(@i)"
+                                    data-bs-target="#edit-award-@i">Edit</a>
+                                        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" onClick="$('#award-pos').val(@i)"
+                                    data-bs-target="#remove-award-@i">Remove</a>
                                     </td>
                                 </tr>
-
+                                <input type="hidden" asp-for="@Model.Awards[i].Id" />
+                                <input type="hidden" asp-for="@Model.Awards[i].ActivityId" />
                                 <div class="modal" id="edit-award-@i" tabindex="-1">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content br-20 pd-20">
@@ -146,8 +151,25 @@
                                                 <div class="modal-footer justify-content-center">
                                                     <button type="button" class="btn btn-outline-primary w-100"
                                                 data-bs-dismiss="modal">Close</button>
-                                                    <input class="btn btn-primary w-100" type="submit" value="Confirm"></input>
+                                                    <input formaction='@Url.Action("EditAward")' class="btn btn-primary w-100" type="submit" value="Confirm"></input>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal" id="remove-award-@i" tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content br-20 pd-20">
+                                            <div class="modal-header justify-content-center">
+                                                <h5 class="modal-title h-04 text-prim-color">Remove award</h5>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                <p>Are you sure you want to remove this award? This action can not be undone.</p>
+                                            </div>
+                                            <div class="modal-footer justify-content-center">
+                                                <a class="btn btn-outline-primary w-100" data-bs-dismiss="modal">Close</a>
+                                                <input formaction='@Url.Action("RemoveAward")' type='submit' value='Confirm' class="btn btn-primary w-100"/>
                                             </div>
                                         </div>
                                     </div>
@@ -166,10 +188,10 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content br-20 pd-20">
             <div class="modal-header justify-content-center">
-                <h5 class="modal-title h-04 text-prim-color">Post activity</h5>
+                <h5 class="modal-title h-04 text-prim-color">Save changes</h5>
             </div>
             <div class="modal-body text-center">
-                <p>You are about to post an activity.</p>
+                <p>You are about to save the changes made.</p>
             </div>
             <div class="modal-footer justify-content-center">
                 <button type="button" class="btn btn-outline-primary w-100" data-bs-dismiss="modal">Close</button>
@@ -191,7 +213,7 @@
             <div class="modal-footer justify-content-center">
                 <button type="button" class="btn btn-outline-primary w-100" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary w-100" asp-controller="Activity"
-                    asp-action="ActivityDetails">Confirm</button>
+                    asp-action="C">Confirm</button>
             </div>
         </div>
     </div>
@@ -208,7 +230,7 @@
             </div>
             <div class="modal-footer justify-content-center">
                 <button type="button" class="btn btn-outline-primary w-100" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary w-100" >Confirm</button>
+                <button type="button" class="btn btn-primary w-100">Confirm</button>
             </div>
         </div>
     </div>

@@ -10,7 +10,7 @@ namespace A_Little_Extra_System.Data.ViewModal
         public int Id { get; set; }
 
         public string UserId { get; set; }
-        
+
         [Required(ErrorMessage = "Name required")]
         [Display(Name = "Name")]
         public string Name { get; set; }
@@ -32,6 +32,8 @@ namespace A_Little_Extra_System.Data.ViewModal
         public int Points { get; set; }
 
         public AwardForm Award { get; set; }
+
+        public int AwardPos { get; set; }
 
         public List<Award> Awards { get; set; }
     }

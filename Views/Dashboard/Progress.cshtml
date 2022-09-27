@@ -57,18 +57,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.Supervisors)
+                            @for (int i = 0; i < Model.Supervisors.Count; i++)
                             {
                                 <tr>
-                                    <td>@item.FirstName @item.LastName</td>
-                                    <td>@item.Email</td>
-                                    <td>@item.PhoneNumber</td>
-                                    <tb>
-                                        if(item.Accept == null){
+                                    <td>@Model.Supervisors[i].FirstName @Model.Supervisors[i].LastName</td>
+                                    <td>@Model.Supervisors[i].Email</td>
+                                    <td>@Model.Supervisors[i].PhoneNumber</td>
+                                    <td>
+                                        @if(Model.SupervisorsStatus[i].Accepted == false)
+                                        {
                                             <a class="btn btn-primary btn-sm">Accept</a>
                                             <a class="btn btn-outline-primary btn-sm">Reject</a>
                                         }
-                                    </tb>
+                                    </td>
                                 </tr>
                             }
                         </tbody>
@@ -87,3 +88,21 @@
         </div>
     </div>
 </section>
+
+<div class="modal" id="cancel-activity" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content br-20 pd-20">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title h-04 text-prim-color">Cancel activity</h5>
+            </div>
+            <div class="modal-body text-center">
+                <p>Do you want to about to cancel your activity? All changes will be discarded.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-outline-primary w-100" data-bs-dismiss="modal">Close</button>
+                <input class="btn btn-primary w-100" asp-controller="Dashboard" asp-action="CancelActivity"
+                    value="Confirm" />
+            </div>
+        </div>
+    </div>
+</div>

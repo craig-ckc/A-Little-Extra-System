@@ -22,11 +22,11 @@ namespace A_Little_Extra_System.Data.Service
             {
                 ActivityId = Id,
                 UserId = userId,
+                Accepted = false,
             };
 
             await context.Set<ActivitySupervision>().AddAsync(entity);
             await context.SaveChangesAsync();
-
         }
 
 
@@ -50,6 +50,13 @@ namespace A_Little_Extra_System.Data.Service
         public async Task<List<User>> GetActivitySupervisors(int Id)
         {
             var activities = context.User.Where(n => n.ActivitySupervision.Any(m => m.ActivityId == Id)).ToList();
+
+            return activities;
+        }
+
+        public async Task<List<ActivitySupervision>> GetActivitySupervisorsStatus(int Id)
+        {
+            var activities = context.ActivitySupervision.Where(m => m.ActivityId == Id).ToList();
 
             return activities;
         }

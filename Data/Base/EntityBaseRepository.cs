@@ -21,6 +21,8 @@ namespace A_Little_Extra_System.Data.Base
         public async Task DeleteAsync(int id)
         {
             var entity = await context.Set<T>().FirstOrDefaultAsync(n => n.Id == id);
+
+            
             EntityEntry entityEntry = context.Entry<T>(entity);
             entityEntry.State = EntityState.Deleted;
 

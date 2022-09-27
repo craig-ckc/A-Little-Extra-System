@@ -32,12 +32,19 @@ namespace A_Little_Extra_System.Controllers
             return View(data);
         }
 
-        //Get: Actors/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Filter(string searchString)
         {
-            return View(new ActivityForm{StartDate = DateTime.Today, EndDate = DateTime.Today});
-        }
+            var data = await activityService.GetAllAsync();
 
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                var filteredResults = data.Where(n => n.Name.Contains(searchString) || n.Description.Contains(searchString)).ToList();
+
+                return View(nameof(Index), filteredResults);
+            }
+
+            return View(nameof(Index), data);
+        }
 
         public async Task<IActionResult> Details(int Id)
         {
@@ -48,10 +55,20 @@ namespace A_Little_Extra_System.Controllers
             return View(activity);
         }
 
+        //Get: Actors/Create
+        public IActionResult Create()
+        {
+            return View(new ActivityForm { StartDate = DateTime.Today, EndDate = DateTime.Today, AwardPos = -1, });
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(ActivityForm data)
         {
             var award = data.Award;
+
+            if (data.AwardPos == 0) return View(data);
+
+            if (data.AwardPos != -1) data.Awards.RemoveAt(data.AwardPos);
 
             if (award.Name != null && award.Description != null)
             {
@@ -70,9 +87,14 @@ namespace A_Little_Extra_System.Controllers
                 return View(data);
             }
 
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (data.AwardPos != -1)
+            {
+                data.AwardPos = -1;
+                return View(data);
+            }
 
             await activityService.NewActivityAsync(data, User.FindFirstValue(ClaimTypes.NameIdentifier));
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -84,6 +106,13 @@ namespace A_Little_Extra_System.Controllers
         }
 
         public async Task<IActionResult> AddSupervisor(int Id)
+        {
+            await supervisorService.AddSupervisor(Id, User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> CancelActivity(int Id)
         {
             await supervisorService.AddSupervisor(Id, User.FindFirstValue(ClaimTypes.NameIdentifier));
 
