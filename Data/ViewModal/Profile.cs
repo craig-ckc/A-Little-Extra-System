@@ -5,8 +5,8 @@ namespace A_Little_Extra_System.Data.ViewModal
     public class Profile
     {
         public User User { get; set; }
-        public List<Activity> PostedHistory { get; set; }
+        public IEnumerable<Activity> PostedHistory { get; set; }
 
-        public List<Activity> OtherHistory { get; set; }
+        public IEnumerable<Activity> OtherHistory { get; set; }
     }
 }

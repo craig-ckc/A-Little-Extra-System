@@ -28,19 +28,64 @@ namespace A_Little_Extra_System.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var data = await activityService.GetAllAsync();
+            var data = new ActivityView
+            {
+                Activities = await activityService.GetAllActiveAsync(),
+            };
+
             return View(data);
         }
 
-        public async Task<IActionResult> Filter(string searchString)
+        [HttpPost]
+        public async Task<IActionResult> Index(ActivityView data)
         {
-            var data = await activityService.GetAllAsync();
 
-            if (!string.IsNullOrEmpty(searchString))
+            data.Activities = await activityService.GetAllActiveAsync();
+
+            // check all activities that contain the string in either the Name or Description
+            if (!string.IsNullOrEmpty(data.SearchString))
             {
-                var filteredResults = data.Where(n => n.Name.Contains(searchString) || n.Description.Contains(searchString)).ToList();
+                data.Activities = data.Activities.Where(n => n.Name.Contains(data.SearchString) || n.Description.Contains(data.SearchString));
+            }
 
-                return View(nameof(Index), filteredResults);
+            switch (data.DateRange)
+            {
+                case "Today":
+                    data.Activities = data.Activities.Where(a => a.EndDate >= DateTime.Today && a.StartDate <= DateTime.Today.AddDays(1));
+                    break;
+                case "This week":
+                    data.Activities = data.Activities.Where(a => a.EndDate >= DateTime.Today && a.StartDate <= DateTime.Today.AddDays(7));
+                    break;
+                case "This month":
+                    data.Activities = data.Activities.Where(a => a.EndDate >= DateTime.Today && a.StartDate <= DateTime.Today.AddDays(DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month) - DateTime.Today.Day));
+                    break;
+                case "This year":
+                    int daysInYear = DateTime.IsLeapYear(DateTime.Today.Year) ? 366 : 365;
+                    data.Activities = data.Activities.Where(a => a.EndDate >= DateTime.Today && a.StartDate <= DateTime.Today.AddDays(daysInYear - DateTime.Today.DayOfYear));
+                    break;
+                default:
+                    break;
+            }
+
+            switch (data.PointsRange)
+            {
+                case "1 - 20":
+                data.Activities = data.Activities.Where(n => n.Points >= 1 & n.Points <= 20);
+                    break;
+                case "20 - 40":
+                data.Activities = data.Activities.Where(n => n.Points >= 20 & n.Points <= 40);
+                    break;
+                case "40 - 60":
+                data.Activities = data.Activities.Where(n => n.Points >= 40 & n.Points <= 60);
+                    break;
+                case "60 - 80":
+                data.Activities = data.Activities.Where(n => n.Points >= 60 & n.Points <= 80);
+                    break;
+                case "80 - 100":
+                data.Activities = data.Activities.Where(n => n.Points >= 80 & n.Points <= 100);
+                    break;
+                default:
+                    break;
             }
 
             return View(nameof(Index), data);
@@ -107,14 +152,14 @@ namespace A_Little_Extra_System.Controllers
 
         public async Task<IActionResult> AddSupervisor(int Id)
         {
-            await supervisorService.AddSupervisor(Id, User.FindFirstValue(ClaimTypes.NameIdentifier));
+            await supervisorService.AddSupervision(Id, User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> CancelActivity(int Id)
         {
-            await supervisorService.AddSupervisor(Id, User.FindFirstValue(ClaimTypes.NameIdentifier));
+            await supervisorService.AddSupervision(Id, User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             return RedirectToAction(nameof(Index));
         }

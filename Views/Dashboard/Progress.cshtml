@@ -45,6 +45,17 @@
                             }
                         </tbody>
                     </table>
+                    @if(Model.Participants.Count() == 0){
+                    <div class="d-flex flex-column justify-content-center align-items-center w-100 empty">
+                                    <div class="d-flex justify-content-center align-items-center empty-image sml-img">
+                                        <img src="css/empty_file.png" alt="">
+                                    </div>
+                                    <div class="message text-center mt-4">
+                                        <h5 class="h-04">List is empty</h5>
+                                        <span>Your list is empty at the moment</span>
+                                    </div>
+                                </div>
+                }
                 </div>
                 <div class="tab-pane fade" id="superviosrs" role="tabpanel" aria-labelledby="superviosrs-tab">
                     <table class="table">
@@ -57,23 +68,44 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @for (int i = 0; i < Model.Supervisors.Count; i++)
-                            {
-                                <tr>
-                                    <td>@Model.Supervisors[i].FirstName @Model.Supervisors[i].LastName</td>
-                                    <td>@Model.Supervisors[i].Email</td>
-                                    <td>@Model.Supervisors[i].PhoneNumber</td>
-                                    <td>
-                                        @if(Model.SupervisorsStatus[i].Accepted == false)
-                                        {
-                                            <a class="btn btn-primary btn-sm">Accept</a>
-                                            <a class="btn btn-outline-primary btn-sm">Reject</a>
-                                        }
-                                    </td>
-                                </tr>
-                            }
+                            <form id="form">
+                                <input type="hidden" asp-for="@Model.Activity.Id" />
+                                <input type="hidden" asp-for="@Model.SuperviosrPos" id="pos" />
+                                @for (int i = 0; i < Model.Supervisors.ToList().Count; i++)
+                                {
+                                    <input type="hidden" asp-for="@Model.SupervisorsStatus.ElementAt(i).ActivityId" />
+                                    <input type="hidden" asp-for="@Model.SupervisorsStatus.ElementAt(i).UserId" />
+                                    <tr>
+                                        <td>@Model.Supervisors.ElementAt(i).FirstName
+                                            @Model.Supervisors.ElementAt(i).LastName</td>
+                                        <td>@Model.Supervisors.ElementAt(i).Email</td>
+                                        <td>@Model.Supervisors.ElementAt(i).PhoneNumber</td>
+                                        <td>
+                                            @if (Model.SupervisorsStatus.ElementAt(i).Accepted == false)
+                                            {
+                                                <input formaction='@Url.Action("AcceptSupervisor")' type="submit"
+                                            onclick="action('@i')" class="btn btn-primary btn-sm" value="Accept" />
+                                                <input formaction='@Url.Action("RejectSupervisor")' type="submit"
+                                            onclick="action('@i')" class="btn btn-outline-primary btn-sm"
+                                            value="Reject" />
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </form>
                         </tbody>
                     </table>
+                    @if(Model.Supervisors.Count() == 0){
+                    <div class="d-flex flex-column justify-content-center align-items-center w-100 empty">
+                                    <div class="d-flex justify-content-center align-items-center empty-image sml-img">
+                                        <img src="css/empty_file.png" alt="">
+                                    </div>
+                                    <div class="message text-center mt-4">
+                                        <h5 class="h-04">List is empty</h5>
+                                        <span>Your list is empty at the moment</span>
+                                    </div>
+                                </div>
+                }
                 </div>
             </div>
             <div class="row mt-5 mt-auto">
@@ -106,3 +138,12 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+<script>
+    function action(i) {
+        $("#pos").val(i);
+        $('#form').submit()
+    }
+</script>
+}

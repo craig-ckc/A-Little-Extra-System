@@ -10,11 +10,11 @@ namespace A_Little_Extra_System.Controllers
 {
     public class DashboardController : Controller
     {
+        private readonly AppDbContext context;
         private readonly IActivityService activityService;
         private readonly IAwardService awardsService;
         private readonly IParticipantService participantService;
-        private readonly ISupervisorService supervisorService;
-        private readonly AppDbContext context;
+        private readonly ISupervisorService supervisorService; 
 
         public DashboardController(AppDbContext context, IActivityService activityService, IAwardService awardsService, IParticipantService participantService, ISupervisorService supervisorService)
         {
@@ -58,11 +58,6 @@ namespace A_Little_Extra_System.Controllers
 
             return View(progress);
         }
-
-        // public async Task<IActionResult> RejectSupervision(int Id){
-        //     await supervisorService.DeleteSupervisor(Id, User.FindFirstValue(ClaimTypes.NameIdentifier));
-        //     return RedirectToAction(nameof(Index));
-        // }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int Id)
@@ -114,7 +109,7 @@ namespace A_Little_Extra_System.Controllers
                 data.AwardPos = -1;
                 return View(data);
             }
-            
+
             await activityService.UpdateActivityAsync(data, User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             return RedirectToAction(nameof(Index));
@@ -123,32 +118,32 @@ namespace A_Little_Extra_System.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveAward(ActivityForm data)
         {
-            if (data.AwardPos == -1) return RedirectToAction(nameof(Edit), new {data = data});
-        
+            if (data.AwardPos == -1) return RedirectToAction(nameof(Edit), new { data = data });
+
             var award = data.Awards[data.AwardPos];
 
             data.Awards.RemoveAt(data.AwardPos);
 
             if (award.Id > 1) await awardsService.DeleteAsync(award.Id);
 
-            return RedirectToAction(nameof(Edit), new {Id = data.Id});
+            return RedirectToAction(nameof(Edit), new { Id = data.Id });
         }
 
         [HttpPost]
         public async Task<IActionResult> EditAward(ActivityForm data)
         {
-            if (data.AwardPos == -1) return RedirectToAction(nameof(Edit), new {data = data});
-        
+            if (data.AwardPos == -1) return RedirectToAction(nameof(Edit), new { data = data });
+
             var award = data.Awards[data.AwardPos];
 
             if (award.Id > 1) await awardsService.UpdateAsync(award.Id, award);
 
-            return RedirectToAction(nameof(Edit), new {Id = data.Id});
+            return RedirectToAction(nameof(Edit), new { Id = data.Id });
         }
 
         public async Task<IActionResult> CancelActivity(int Id)
         {
-            await activityService.DeleteAsync(Id);
+            await activityService.DeleteActivityAsync(Id);
             return RedirectToAction(nameof(Index));
         }
 
@@ -160,8 +155,27 @@ namespace A_Little_Extra_System.Controllers
 
         public async Task<IActionResult> CancelSupervision(int Id)
         {
-            await supervisorService.DeleteSupervisor(Id, User.FindFirstValue(ClaimTypes.NameIdentifier));
+            await supervisorService.DeleteSupervision(Id, User.FindFirstValue(ClaimTypes.NameIdentifier));
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> AcceptSupervisor(ActivityProgress data)
+        {
+            var supervision = data.SupervisorsStatus.ElementAt(data.SuperviosrPos);
+
+            await supervisorService.UpdateSupervision(supervision.ActivityId, supervision.UserId);
+
+            return RedirectToAction(nameof(Progress), new { Id = data.Activity.Id });
+        }
+
+        public async Task<IActionResult> RejectSupervisor(ActivityProgress data)
+        {
+
+            var supervision = data.SupervisorsStatus.ElementAt(data.SuperviosrPos);
+
+            await supervisorService.DeleteSupervision(supervision.ActivityId, supervision.UserId);
+
+            return RedirectToAction(nameof(Progress), new { Id = data.Activity.Id });
         }
 
     }

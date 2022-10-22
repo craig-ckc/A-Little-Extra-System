@@ -1,5 +1,7 @@
-@model IEnumerable<Activity>
 @using A_Little_Extra_System.Data.Static;
+@using A_Little_Extra_System.Data.ViewModal;
+@using A_Little_Extra_System.Data.Enums
+@model ActivityView
 
 @{
 	ViewData["Title"] = "Activities";
@@ -7,25 +9,50 @@
 
 <section class="my-sm-5">
 	<div class="container">
-		<div class="section-header d-flex mb-5">
+		<div class="section-header d-flex mb-3">
 			<h1 class="h-02 flex-grow-1">Available activities </h1>
-			<form class="form-inline my-2 my-lg-0" asp-action="Filter" style="padding-right: 25px;">
-				<div class="input-group">
-					<input name="searchString" type="text" class="form-control" placeholder="Search for an activity..." >
-					<div class="input-group-append">
-						<button class="btn btn-outline-primary defualt-btn" type="submit"><i class="bi bi-search"></i></button>
-					</div>
-				</div>
-			</form>
 			@if (User.Identity.IsAuthenticated)
 			{
 				<a class="btn btn-primary btn-lg" asp-controller="Activity" asp-action="Create">Post Activity</a>
 			}
 		</div>
+		<div class="mb-3">
+			<form class="form-inline my-2 my-lg-0" asp-action="Index" style="padding-right: 25px;">
+				<div class="row">
+					<div class="col-md-3">
+						<input asp-for="SearchString" type="text" class="form-control"
+							placeholder="Search for an activity...">
+					</div>
+					<div class="col-md-3">
+						<select asp-for="DateRange" class="form-select" aria-label="Default select example">
+							<option value="All time">All time</option>
+							<option value="Today">Today</option>
+							<option value="This week">This week</option>
+							<option value="This month">This month</option>
+							<option value="This year">This year</option>
+						</select>
+					</div>
+					<div class="col-md-3">
+						<select asp-for="PointsRange" class="form-select" aria-label="Default select example">
+							<option value="All points">All points</option>
+							<option value="1 - 20">1 - 20</option>
+							<option value="20 - 40">20 - 40</option>
+							<option value="40 - 60">40 - 60</option>
+							<option value="60 - 80">60 - 80</option>
+							<option value="80 - 100">80 - 100</option>
+						</select>
+					</div>
+					<div class="col-md-3">
+						@* <input class="btn btn-primary mb-2 w-100" type="submit" value="Register" /> *@
+						<button class="btn btn-primary w-100" type="submit"><i class="bi bi-search"></i> Search</button>
+					</div>
+				</div>
+			</form>
+		</div>
 		<div class="activities">
 			@if (Model != null)
 			{
-				foreach (var item in Model)
+				foreach (var item in Model.Activities)
 				{
 					<div class="card br-20 mb-5 c-card">
 						<div class="card-body">
@@ -92,6 +119,18 @@
 						</div>
 					</div>
 				}
+			}
+			@if (Model.Activities.Count() == 0)
+			{
+				<div class="d-flex flex-column justify-content-center align-items-center w-100 empty">
+					<div class="d-flex justify-content-center align-items-center empty-image sml-img">
+						<img src="images/empty_file.png" alt="">
+					</div>
+					<div class="message text-center mt-4">
+						<h5 class="h-04">List is empty</h5>
+						<span>Your list is empty at the moment</span>
+					</div>
+				</div>
 			}
 		</div>
 	</div>

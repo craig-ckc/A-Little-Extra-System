@@ -34,6 +34,12 @@ namespace A_Little_Extra_System.Controllers
             var user = await userManager.FindByEmailAsync(login.Email);
             if (user != null)
             {
+                // if (!user.isAvtive)
+                // {
+                //     TempData["Error"] = "Account was deactivated, create a new one";
+                //     return View(login);
+                // }
+
                 var passwordCheck = await userManager.CheckPasswordAsync(user, login.Password);
                 if (passwordCheck)
                 {
@@ -99,6 +105,13 @@ namespace A_Little_Extra_System.Controllers
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Delete()
+        {
+
+
+            return RedirectToAction("Index", "HomeController");
         }
 
         public IActionResult AccessDenied(string ReturnUrl)

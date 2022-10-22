@@ -1,0 +1,15 @@
+namespace A_Little_Extra_System.Data.Enums
+{
+    public enum FilterPoints
+    {
+        Under20,
+        Under30,
+        Under40,
+        Under50,
+        Under60,
+        Under70,
+        Under80,
+        Under90,
+        Under100,
+    }
+}

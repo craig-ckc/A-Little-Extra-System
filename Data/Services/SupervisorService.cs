@@ -14,9 +14,9 @@ namespace A_Little_Extra_System.Data.Service
             this.context = context;
         }
 
-        public async Task AddSupervisor(int Id, string userId)
+        public async Task AddSupervision(int Id, string userId)
         {
-            if(context.ActivitySupervision.Find(Id, userId) != null) return;
+            if (context.ActivitySupervision.Find(Id, userId) != null) return;
 
             var entity = new ActivitySupervision
             {
@@ -29,8 +29,7 @@ namespace A_Little_Extra_System.Data.Service
             await context.SaveChangesAsync();
         }
 
-
-        public async Task DeleteSupervisor(int Id, string userId)
+        public async Task DeleteSupervision(int Id, string userId)
         {
             var entity = context.ActivitySupervision.Find(Id, userId);
 
@@ -42,7 +41,7 @@ namespace A_Little_Extra_System.Data.Service
 
         public async Task<List<Activity>> GetActivitiesSupervising(string userId)
         {
-            var activities = context.Activity.Where(n => n.ActivitySupervision.Any(m => m.UserId == userId)).ToList();
+            var activities = context.Activity.Where(n => n.ActivitySupervision.Any(m => m.UserId == userId)).Where(a => a.EndDate >= DateTime.Today).ToList();
 
             return activities;
         }
@@ -61,5 +60,20 @@ namespace A_Little_Extra_System.Data.Service
             return activities;
         }
 
+        public async Task<IEnumerable<Activity>> SupervisionHistory(string userId)
+        {
+            var activities = await context.Activity.Where(n => n.ActivitySupervision.Any(m => m.UserId == userId)).Where(a => a.EndDate < DateTime.Today).ToListAsync();
+
+            return activities;
+        }
+
+        public async Task UpdateSupervision(int activityId, string userId)
+        {
+            var entity = context.ActivitySupervision.Find(activityId, userId);
+
+            entity.Accepted = true;
+
+            await context.SaveChangesAsync();
+        }
     }
 }

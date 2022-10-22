@@ -12,6 +12,7 @@
             <div class="d-flex">
                 <div>
                     <div class="user-profile rounded-circle">
+                        @* <img class="image-preview" src="@UserManager.GetUserAsync(User).Result.ImageURL"></img> *@
                         <img class="image-preview"></img>
                         <div class="avarta-indicator"></div>
                     </div>
@@ -47,7 +48,9 @@
                 <div class="modal-footer justify-content-center">
                     <button type="button" class="btn btn-outline-primary w-100" data-bs-toggle="modal"
                         data-bs-target="#logout">Logout</button>
-                    <a class="btn btn-primary w-100 ms-3" asp-action="Update">Update</a>
+                    <button type="button" class="btn btn-outline-primary w-100" data-bs-toggle="modal"
+                        data-bs-target="#delete">Delete</button>
+                    <a class="btn btn-primary w-100" asp-action="Update">Update</a>
                 </div>
             </div>
         </div>
@@ -60,9 +63,7 @@
                     <table class="table" id="myTable">
                         <thead>
                             <tr>
-                                <th onclick="sortTable(0)">Activity name <i class="fa-solid fa-sort"></i>
-                                </th>
-                                <th onclick="sortTable(1)">Start date <i class="fa-solid fa-sort"></i></th>
+                                <th onclick="sortTable(0)">Activity name <i class="fa-solid fa-sort"></i></th>
                                 <th onclick="sortTable(2)">End date <i class="fa-solid fa-sort"></i></th>
                                 <th onclick="sortTable(3)">Points <i class="fa-solid fa-sort"></i></th>
                             </tr>
@@ -72,13 +73,23 @@
                             {
                                 <tr>
                                     <td>@item.Name</td>
-                                    <td>@item.StartDate.ToString("dd MMM yyyy")</td>
                                     <td>@item.EndDate.ToString("dd MMM yyyy")</td>
                                     <td>@item.Points</td>
                                 </tr>
                             }
                         </tbody>
                     </table>
+                    @if(Model.PostedHistory.Count() == 0){
+                    <div class="d-flex flex-column justify-content-center align-items-center w-100 empty">
+                                    <div class="d-flex justify-content-center align-items-center empty-image sml-img">
+                                        <img src="images/empty_file.png" alt="">
+                                    </div>
+                                    <div class="message text-center mt-4">
+                                        <h5 class="h-04">List is empty</h5>
+                                        <span>Your list is empty at the moment</span>
+                                    </div>
+                                </div>
+                }
                 </div>
             </div>
             @if (User.IsInRole(UserRoles.Student) || User.IsInRole(UserRoles.DepartmentStaff))
@@ -99,9 +110,8 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Activity name <i class="fa-solid fa-sort"></i></th>
-                                    <th scope="col">Start date <i class="fa-solid fa-sort"></i></th>
                                     <th scope="col">End date <i class="fa-solid fa-sort"></i></th>
-                                    <th scope="col">Points <i class="fa-solid fa-sort"></i></th>
+                                    <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -109,13 +119,27 @@
                                 {
                                     <tr>
                                         <td>@item.Name</td>
-                                        <td>@item.StartDate.ToString("dd MMM yyyy")</td>
                                         <td>@item.EndDate.ToString("dd MMM yyyy")</td>
-                                        <td>@item.Points</td>
+                                        <td>
+                                            <form asp-action="GenerateCertificate" class="row">
+                                                <input class="btn btn-primary w-100" type="submit" value="Certificate" asp-for-id="@item.Id" />
+                                            </form>
+                                        </td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
+                        @if(Model.OtherHistory == null){
+                    <div class="d-flex flex-column justify-content-center align-items-center w-100 empty">
+                                    <div class="d-flex justify-content-center align-items-center empty-image sml-img">
+                                        <img src="images/empty_file.png" alt="">
+                                    </div>
+                                    <div class="message text-center mt-4">
+                                        <h5 class="h-04">List is empty</h5>
+                                        <span>Your list is empty at the moment</span>
+                                    </div>
+                                </div>
+                }
                     </div>
                 </div>
             }
@@ -135,6 +159,23 @@
             <div class="modal-footer justify-content-center">
                 <button type="button" class="btn btn-outline-primary w-100" data-bs-dismiss="modal">Close</button>
                 <a class="btn btn-primary w-100" asp-controller="Account" asp-action="Logout">Confirm</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="delete" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content br-20 pd-20">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title h-04 text-prim-color">Delete account</h5>
+            </div>
+            <div class="modal-body text-center">
+                <p>Are you sure you want to delete your account.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-outline-primary w-100" data-bs-dismiss="modal">Close</button>
+                <a class="btn btn-primary w-100" asp-controller="Account" asp-action="Delete">Confirm</a>
             </div>
         </div>
     </div>

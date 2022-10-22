@@ -4,7 +4,7 @@ namespace A_Little_Extra_System.Data.ViewModal
 {
     public class ProfileUpdate
     {
-        public string ImgUrl { get; set; }
+        public string ImageURL { get; set; }
 
         [Display(Name = "First name")]
         [Required(ErrorMessage = "First name required")]

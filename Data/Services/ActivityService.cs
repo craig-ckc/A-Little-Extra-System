@@ -17,7 +17,7 @@ namespace A_Little_Extra_System.Data.Service
             this.context = context;
         }
 
-        public async Task<List<Activity>> GetPostedActivities(string userId)
+        public async Task<IEnumerable<Activity>> GetPostedActivities(string userId)
         {
             var activities = context.Activity.Where(n => n.UserId == userId).Where(a => a.EndDate >= DateTime.Today).ToList();
 
@@ -101,25 +101,43 @@ namespace A_Little_Extra_System.Data.Service
             await context.SaveChangesAsync();
         }
 
-        public async Task<List<Activity>> PostedHistory(string userId)
+        public async Task<IEnumerable<Activity>> PostedHistory(string userId)
         {
             var activities = context.Activity.Where(n => n.UserId == userId).Where(a => a.EndDate < DateTime.Today).ToList();
 
             return activities;
         }
 
-        public async Task<List<Activity>> ParticipationHistory(string userId)
+        public async Task DeleteActivityAsync(int id)
         {
-            var activities = context.Activity.Where(n => n.ActivityParticipation.Any(m => m.UserId == userId)).Where(a => a.EndDate < DateTime.Today).ToList();
+            // Delete the activity
+            var entity = await context.Set<Activity>().FirstOrDefaultAsync(n => n.Id == id);
 
-            return activities;
+            EntityEntry entityEntry = context.Entry<Activity>(entity);
+            entityEntry.State = EntityState.Deleted;
+
+            // delete all the activity participation
+            var activity_articipation = context.ActivityParticipation.Where(n => n.ActivityId == id).ToList();
+            foreach (var item in activity_articipation)
+            {
+                EntityEntry _entity = context.Entry<ActivityParticipation>(item);
+                _entity.State = EntityState.Deleted;
+            }
+
+            // delete all the activity supervision
+            var activity_supervision = context.ActivitySupervision.Where(n => n.ActivityId == id).ToList();
+            foreach (var item in activity_supervision)
+            {
+                EntityEntry _entity = context.Entry<ActivitySupervision>(item);
+                _entity.State = EntityState.Deleted;
+            }
+
+            await context.SaveChangesAsync();
         }
 
-        public async Task<List<Activity>> SupervisionHistory(string userId)
+        public async Task<IEnumerable<Activity>> GetAllActiveAsync()
         {
-            var activities = context.Activity.Where(n => n.ActivitySupervision.Any(m => m.UserId == userId)).Where(a => a.EndDate < DateTime.Today).ToList();
-
-            return activities;
+            return context.Activity.Where(a => a.EndDate >= DateTime.Today).OrderByDescending(a => a.Id);
         }
     }
 }

@@ -627,6 +627,39 @@ td {
 .btn>i {
   margin-left: 0px;
 }
-.form-control{
+.form-control, .form-select{
   border-radius: 0.75rem;
+}
+
+/*  */
+.empty{
+  min-height: 50vh;
+}
+.empty-image{
+  --img-size: 15rem;
+  height: var(--img-size);
+  width: var(--img-size);
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #f7f7f7;
+}
+.empty-image img{
+  width: 50%;
+  height: 45%;
+}
+
+.sml-img{
+  --img-size: 10rem;
+}
+.card-text{
+  --line-heignt: 1.5rem;
+  overflow:hidden;
+  line-height: var(--line-heignt);
+  max-height: calc(var(--line-heignt) * 3);
+  -webkit-box-orient: vertical;
+  display: block;
+  display: -webkit-box;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 4;
 }

@@ -64,3 +64,5 @@ C:\Users\craig\source\repos\A Little Extra System\A Little Extra System\obj\Debu
 C:\Users\craig\source\repos\A Little Extra System\A Little Extra System\obj\Debug\net6.0\A Little Extra System.pdb
 C:\Users\craig\source\repos\A Little Extra System\A Little Extra System\obj\Debug\net6.0\A Little Extra System.genruntimeconfig.cache
 C:\Users\craig\source\repos\A Little Extra System\A Little Extra System\obj\Debug\net6.0\ref\A Little Extra System.dll
+C:\Users\craig\source\repos\A Little Extra System\A Little Extra System\bin\Debug\net6.0\BouncyCastle.Crypto.dll
+C:\Users\craig\source\repos\A Little Extra System\A Little Extra System\bin\Debug\net6.0\itextsharp.dll

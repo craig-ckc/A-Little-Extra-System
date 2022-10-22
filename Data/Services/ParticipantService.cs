@@ -16,8 +16,8 @@ namespace A_Little_Extra_System.Data.Service
 
         public async Task AddParticipant(int Id, string userId)
         {
-            if(context.ActivityParticipation.Find( Id, userId) != null) return;
-            
+            if (context.ActivityParticipation.Find(Id, userId) != null) return;
+
             var entity = new ActivityParticipation
             {
                 ActivityId = Id,
@@ -31,7 +31,7 @@ namespace A_Little_Extra_System.Data.Service
 
         public async Task DeleteParticipant(int Id, string userId)
         {
-            var entity = context.ActivityParticipation.Find( Id, userId);
+            var entity = context.ActivityParticipation.Find(Id, userId);
 
             EntityEntry entityEntry = context.Entry<ActivityParticipation>(entity);
             entityEntry.State = EntityState.Deleted;
@@ -41,10 +41,18 @@ namespace A_Little_Extra_System.Data.Service
 
         public async Task<List<Activity>> GetActivitiesParticipating(string userId)
         {
-            var activities = context.Activity.Where(n => n.ActivityParticipation.Any(m => m.UserId == userId)).ToList();
+            var activities = context.Activity.Where(n => n.ActivityParticipation.Any(m => m.UserId == userId)).Where(a => a.EndDate >= DateTime.Today).ToList();
 
             return activities;
         }
+
+        public async Task<IEnumerable<Activity>> ParticipationHistory(string userId)
+        {
+            var activities = await context.Activity.Where(n => n.ActivityParticipation.Any(m => m.UserId == userId)).Where(a => a.EndDate < DateTime.Today).ToListAsync();
+
+            return activities;
+        }
+
 
         public async Task<List<User>> GetActivityPaticipants(int Id)
         {
@@ -53,5 +61,11 @@ namespace A_Little_Extra_System.Data.Service
             return activities;
         }
 
+        public Task<Activity> GetActivityPaticipant(int Id, string userId)
+        {
+            var activity = context.Activity.FirstOrDefaultAsync(n => n.ActivityParticipation.Any(m => m.ActivityId == Id) || n.ActivityParticipation.Any(ap => ap.UserId == userId));
+
+            return activity;
+        }
     }
 }

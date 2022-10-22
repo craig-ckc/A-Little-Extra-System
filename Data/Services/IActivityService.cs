@@ -6,17 +6,17 @@ namespace A_Little_Extra_System.Data.Service
 {
     public interface IActivityService:IEntityBaseRepository<Activity>
     {
+        Task DeleteActivityAsync(int id);
+        
+        Task<IEnumerable<Activity>> GetAllActiveAsync();
+
+        Task<IEnumerable<Activity>> GetPostedActivities(String userId);
+
+        Task<IEnumerable<Activity>> PostedHistory(string userId);
+
         Task NewActivityAsync(ActivityForm data, String userId);
 
         Task UpdateActivityAsync(ActivityForm data, String userId);
-
-        Task<List<Activity>> GetPostedActivities(String userId);
-
-        Task<List<Activity>> PostedHistory(string userId);
-
-        Task<List<Activity>> ParticipationHistory(string userId);
-
-        Task<List<Activity>> SupervisionHistory(string userId);
 
     }
 }
