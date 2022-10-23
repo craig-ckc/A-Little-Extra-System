@@ -96,6 +96,10 @@ namespace A_Little_Extra_System.Controllers
                     await userManager.AddToRoleAsync(newUser, UserRoles.DepartmentStaff);
                 else
                     await userManager.AddToRoleAsync(newUser, UserRoles.UniversityPartner);
+            else{
+                TempData["Error"] = "This email address is already in use";
+                return View(register);
+            }
 
             TempData["Success"] = "You have been successfully registered!";
             return View(register);
