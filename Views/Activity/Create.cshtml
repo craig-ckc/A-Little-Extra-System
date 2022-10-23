@@ -42,7 +42,7 @@
                     </div>
                     <div class="col-md-4 mb-6">
                         <label asp-for="Points" class="form-label">@Html.DisplayNameFor(model => model.Points)</label>
-                        <input asp-for="Points" type="number" class="form-control" min="1" max="100"
+                        <input asp-for="Points" type="number" class="form-control points" min="1" max="100"
                             placeholder="@Html.DisplayNameFor(model => model.Points)">
                         <span asp-validation-for="Points" class="invalid-feedback"></span>
                     </div>
@@ -245,14 +245,14 @@
 
 
     $(function () {
-  $("input").keydown(function () {
+  $("input.points").keydown(function () {
     // Save old value.
-    if (!$(this).val() || (parseInt($(this).val()) <= 11 && parseInt($(this).val()) >= 0))
+    if (!$(this).val() || (parseInt($(this).val()) <= 100 && parseInt($(this).val()) >= 0))
     $(this).data("old", $(this).val());
   });
-  $("input").keyup(function () {
+  $("input.points").keyup(function () {
     // Check correct, else revert back to old value.
-    if (!$(this).val() || (parseInt($(this).val()) <= 11 && parseInt($(this).val()) >= 0))
+    if (!$(this).val() || (parseInt($(this).val()) <= 100 && parseInt($(this).val()) >= 0))
       ;
     else
       $(this).val($(this).data("old"));
