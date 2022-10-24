@@ -77,6 +77,7 @@ namespace A_Little_Extra_System.Controllers
 
             var newAppUser = new User()
             {
+                ImgUrl = "https://support.pega.com/sites/default/files/pega-user-image/471/REG-470114.png",
                 FirstName = register.FirstName,
                 LastName = register.LastName,
                 PatnerName = register.PatnerName,
@@ -107,7 +108,7 @@ namespace A_Little_Extra_System.Controllers
                 }
             else
             {
-                TempData["Error"] = "Something went wrong, try again";
+                TempData["Error"] = responce.ToString();
                 return View(register);
             }
 

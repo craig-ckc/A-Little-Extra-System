@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace A_Little_Extra_System.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221024105925_final")]
+    [Migration("20221024131612_final")]
     partial class final
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -179,6 +179,10 @@ namespace A_Little_Extra_System.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImgUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
@@ -221,7 +225,7 @@ namespace A_Little_Extra_System.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<bool>("isAvtive")
+                    b.Property<bool>("isActive")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");

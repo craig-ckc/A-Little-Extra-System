@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace A_Little_Extra_System.Migrations
 {
-    public partial class migration_v01 : Migration
+    public partial class final : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -62,11 +62,12 @@ namespace A_Little_Extra_System.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DepartmentID = table.Column<int>(type: "int", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PatnerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    isAvtive = table.Column<bool>(type: "bit", nullable: false),
+                    isActive = table.Column<bool>(type: "bit", nullable: false),
                     Points = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -104,7 +105,8 @@ namespace A_Little_Extra_System.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Points = table.Column<int>(type: "int", nullable: false)
+                    Points = table.Column<int>(type: "int", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

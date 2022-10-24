@@ -164,7 +164,7 @@ namespace A_Little_Extra_System.Controllers
 
             if (user != null)
             {
-                // user.ImageURL = data.ImageURL;
+                user.ImgUrl = data.ImageURL;
                 user.FirstName = data.FirstName;
                 user.LastName = data.LastName;
                 user.PatnerName = data.PatnerName;

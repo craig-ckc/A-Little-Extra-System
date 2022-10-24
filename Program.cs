@@ -60,7 +60,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 // Seed database
-AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();
+AppDbInitializer.Seed(app).Wait();
 
 Task.Delay(new TimeSpan(1, 0, 0)).ContinueWith(o => {
     AppDbInitializer.ScoreParticipants(app).Wait();

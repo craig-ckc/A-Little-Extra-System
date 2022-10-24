@@ -110,7 +110,7 @@
                     {
                         <a class="modal-footer" asp-controller="Profile" asp-action="Index">
                             <div class="user-profile nav-prof rounded-circle">
-                                @* <img class="image-preview" src="@UserManager.GetUserAsync(User).Result.ImageURL"></img> *@
+                                <img class="image-preview" src="@UserManager.GetUserAsync(User).Result.ImgUrl"></img>
                             </div>
                             <p class="nav-link text-white">
                                 @UserManager.GetUserAsync(User).Result
