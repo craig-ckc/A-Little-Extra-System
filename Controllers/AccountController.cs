@@ -87,10 +87,10 @@ namespace A_Little_Extra_System.Controllers
                 PhoneNumber = register.PhoneNumber,
             };
 
-            var responce = await userManager.CreateAsync(newAppUser, "Coding@1234?");
+            var responce = await userManager.CreateAsync(newAppUser, register.Password);
 
             if (responce.Succeeded)
-            
+
                 switch (register.UserRole)
                 {
                     case UserRoles.Student:
