@@ -40,6 +40,7 @@ namespace A_Little_Extra_System.Data
                     var newAppUser = new User()
 
                     {
+                        ImgUrl = "https://support.pega.com/sites/default/files/pega-user-image/471/REG-470114.png",
                         FirstName = " Nyasha",
                         LastName = " Mhandu",
                         PatnerName = "",
@@ -84,7 +85,9 @@ namespace A_Little_Extra_System.Data
                 if (user == null)
                 {
                     var newAppUser = new User()
+
                     {
+                        ImgUrl = "https://support.pega.com/sites/default/files/pega-user-image/471/REG-470114.png",
                         FirstName = " Charmaine",
                         LastName = " Zhuwau",
                         PatnerName = "",
@@ -130,6 +133,7 @@ namespace A_Little_Extra_System.Data
                     var newAppUser = new User()
 
                     {
+                        ImgUrl = "https://support.pega.com/sites/default/files/pega-user-image/471/REG-470114.png",
                         FirstName = " Tash",
                         LastName = " Mun",
                         PatnerName = "",
@@ -166,7 +170,7 @@ namespace A_Little_Extra_System.Data
                     var newAppUser = new User()
 
                     {
-
+                        ImgUrl = "https://support.pega.com/sites/default/files/pega-user-image/471/REG-470114.png",
                         FirstName = "",
                         LastName = "",
                         PatnerName = "Old Mutual",
@@ -190,6 +194,7 @@ namespace A_Little_Extra_System.Data
                     var newAppUser = new User()
 
                     {
+                        ImgUrl = "https://support.pega.com/sites/default/files/pega-user-image/471/REG-470114.png",
                         FirstName = "",
                         LastName = "",
                         PatnerName = "Santam",
@@ -212,6 +217,7 @@ namespace A_Little_Extra_System.Data
                     var newAppUser = new User()
 
                     {
+                        ImgUrl = "https://support.pega.com/sites/default/files/pega-user-image/471/REG-470114.png",
                         FirstName = "Lynn",
                         LastName = "Goash",
                         PatnerName = "",
@@ -232,7 +238,9 @@ namespace A_Little_Extra_System.Data
                 if (user == null)
                 {
                     var newAppUser = new User()
+
                     {
+                        ImgUrl = "https://support.pega.com/sites/default/files/pega-user-image/471/REG-470114.png",
                         FirstName = "Ben",
                         LastName = "Bim",
                         PatnerName = "",
@@ -270,6 +278,7 @@ namespace A_Little_Extra_System.Data
                     var newAppUser = new User()
 
                     {
+                        ImgUrl = "https://support.pega.com/sites/default/files/pega-user-image/471/REG-470114.png",
                         FirstName = "Jean",
                         LastName = "Clair",
                         PatnerName = "",
@@ -291,7 +300,9 @@ namespace A_Little_Extra_System.Data
                 if (user == null)
                 {
                     var newAppUser = new User()
+
                     {
+                        ImgUrl = "https://support.pega.com/sites/default/files/pega-user-image/471/REG-470114.png",
                         FirstName = "Student1",
                         LastName = "Mandela",
                         PatnerName = "UniPatner",
@@ -325,7 +336,9 @@ namespace A_Little_Extra_System.Data
                 if (user == null)
                 {
                     var newAppUser = new User()
+
                     {
+                        ImgUrl = "https://support.pega.com/sites/default/files/pega-user-image/471/REG-470114.png",
                         FirstName = "Staff",
                         LastName = "Mandela",
                         PatnerName = "UniPatner",
