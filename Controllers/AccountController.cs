@@ -90,16 +90,16 @@ namespace A_Little_Extra_System.Controllers
             var responce = await userManager.CreateAsync(newAppUser, register.Password);
 
             if (responce.Succeeded)
-
+    
                 switch (register.UserRole)
                 {
-                    case UserRoles.Student:
+                    case "0":
                         await userManager.AddToRoleAsync(newAppUser, UserRoles.Student);
                         break;
-                    case UserRoles.DepartmentStaff:
+                    case "1":
                         await userManager.AddToRoleAsync(newAppUser, UserRoles.DepartmentStaff);
                         break;
-                    case UserRoles.UniversityPartner:
+                    case "2":
                         await userManager.AddToRoleAsync(newAppUser, UserRoles.UniversityPartner);
                         break;
                     default:
