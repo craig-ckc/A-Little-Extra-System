@@ -90,6 +90,7 @@ namespace A_Little_Extra_System.Controllers
             var responce = await userManager.CreateAsync(newAppUser, "Coding@1234?");
 
             if (responce.Succeeded)
+            
                 switch (register.UserRole)
                 {
                     case UserRoles.Student:
