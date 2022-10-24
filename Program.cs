@@ -62,4 +62,9 @@ app.MapControllerRoute(
 // Seed database
 AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();
 
+Task.Delay(new TimeSpan(1, 0, 0)).ContinueWith(o => {
+    AppDbInitializer.ScoreParticipants(app).Wait();
+    Console.WriteLine("Working!!");
+});
+
 app.Run();

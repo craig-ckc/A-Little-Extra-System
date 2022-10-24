@@ -5,7 +5,7 @@ namespace A_Little_Extra_System.Models
 {
     public class User:IdentityUser
     {
-        // public string ImgUrl { get; set; }
+        public string ImgUrl { get; set; }
         
         public string? FirstName { get; set; }
 
@@ -16,7 +16,7 @@ namespace A_Little_Extra_System.Models
 
         public string? PatnerName { get; set; }
 
-        public Boolean isAvtive { get; set; }
+        public Boolean isActive { get; set; }
 
         public int Points { get; set; }
 

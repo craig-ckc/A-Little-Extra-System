@@ -34,11 +34,11 @@ namespace A_Little_Extra_System.Controllers
             var user = await userManager.FindByEmailAsync(login.Email);
             if (user != null)
             {
-                // if (!user.isAvtive)
-                // {
-                //     TempData["Error"] = "Account was deactivated, create a new one";
-                //     return View(login);
-                // }
+                if (!user.isActive)
+                {
+                    TempData["Error"] = "Account was deactivated, create a new one";
+                    return View(login);
+                }
 
                 var passwordCheck = await userManager.CheckPasswordAsync(user, login.Password);
                 if (passwordCheck)
@@ -83,8 +83,8 @@ namespace A_Little_Extra_System.Controllers
                 UserName = (register.UserRole == UserRoles.UniversityPartner) ? register.PatnerName : register.FirstName,
                 Email = register.Email,
                 EmailConfirmed = true,
-                isAvtive = true,
                 PhoneNumber = register.PhoneNumber,
+                isActive = true,
             };
 
             var responce = await userManager.CreateAsync(newAppUser, register.Password);

@@ -49,11 +49,11 @@ namespace A_Little_Extra_System.Data
                     {
                         FirstName = "Admin",
                         LastName = "User",
-                        PatnerName="UniPatner",
+                        PatnerName = "UniPatner",
                         UserName = "admin-user",
                         Email = adminUserEmail,
                         EmailConfirmed = true,
-                        isAvtive = true,
+                        isActive = true,
                     };
                     await userManager.CreateAsync(newAdminUser, "Coding@1234?");
                     await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
@@ -68,11 +68,11 @@ namespace A_Little_Extra_System.Data
                     {
                         FirstName = "Student1",
                         LastName = "Mandela",
-                        PatnerName="UniPatner",
+                        PatnerName = "UniPatner",
                         UserName = "student-1",
                         Email = student1Email,
                         EmailConfirmed = true,
-                        isAvtive = true,
+                        isActive = true,
                     };
                     await userManager.CreateAsync(newAppUser, "Coding@1234?");
                     await userManager.AddToRoleAsync(newAppUser, UserRoles.Student);
@@ -86,11 +86,11 @@ namespace A_Little_Extra_System.Data
                     {
                         FirstName = "Student2",
                         LastName = "Mandela",
-                        PatnerName="UniPatner",
+                        PatnerName = "UniPatner",
                         UserName = "student-2",
                         Email = student2Email,
                         EmailConfirmed = true,
-                        isAvtive = true,
+                        isActive = true,
                     };
                     await userManager.CreateAsync(newAppUser, "Coding@1234?");
                     await userManager.AddToRoleAsync(newAppUser, UserRoles.Student);
@@ -105,11 +105,11 @@ namespace A_Little_Extra_System.Data
                     {
                         FirstName = "Staff",
                         LastName = "Mandela",
-                        PatnerName="UniPatner",
+                        PatnerName = "UniPatner",
                         UserName = "staff-user",
                         Email = staffEmail,
                         EmailConfirmed = true,
-                        isAvtive = true,
+                        isActive = true,
                     };
                     await userManager.CreateAsync(newAppUser, "Coding@1234?");
                     await userManager.AddToRoleAsync(newAppUser, UserRoles.DepartmentStaff);
@@ -125,18 +125,49 @@ namespace A_Little_Extra_System.Data
                     {
                         FirstName = "",
                         LastName = "",
-                        PatnerName="UniPatner",
+                        PatnerName = "UniPatner",
                         UserName = "patner-user",
                         Email = partnerEmail,
                         EmailConfirmed = true,
-                        isAvtive = true,
+                        isActive = true,
                     };
-                    
+
                     await userManager.CreateAsync(newAppUser, "Coding@1234?");
                     await userManager.AddToRoleAsync(newAppUser, UserRoles.UniversityPartner);
                 }
 
             }
         }
+
+        public static async Task ScoreParticipants(IApplicationBuilder applicationBuilder)
+        {
+            using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
+
+                var activities = context.Activity.Where(a => a.Active == true).ToList();
+
+                foreach (Activity activity in activities)
+                {
+                    if (DateTime.Today < activity.EndDate)
+                    {
+                        activity.Active = false;
+                        context.Update(activity);
+                        await context.SaveChangesAsync();
+
+                        var participants = context.User.Where(n => n.ActivityParticipation.Any(m => m.ActivityId == activity.Id)).ToList();
+
+                        foreach (User user in participants)
+                        {
+                            user.Points = user.Points + activity.Points;
+                            context.Update(user);
+                            await context.SaveChangesAsync();
+                        }
+
+                    }
+                }
+            }
+        }
+
     }
 }

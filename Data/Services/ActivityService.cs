@@ -34,6 +34,7 @@ namespace A_Little_Extra_System.Data.Service
                 StartDate = data.StartDate,
                 EndDate = data.EndDate,
                 Points = data.Points,
+                Active = true,
             };
 
             var responce = await context.Activity.AddAsync(activity);

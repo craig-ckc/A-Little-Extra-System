@@ -34,6 +34,8 @@ namespace A_Little_Extra_System.Models
         [Display(Name = "Points")]
         public int Points { get; set; }
 
+        public Boolean Active { get; set; }
+
         // Relationship with ActivityParticipation (Assciation Entity)
         public List<ActivityParticipation> ActivityParticipation { get; set; }
 
