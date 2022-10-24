@@ -52,7 +52,8 @@ namespace A_Little_Extra_System.Data
                         PatnerName="UniPatner",
                         UserName = "admin-user",
                         Email = adminUserEmail,
-                        EmailConfirmed = true
+                        EmailConfirmed = true,
+                        isAvtive = true,
                     };
                     await userManager.CreateAsync(newAdminUser, "Coding@1234?");
                     await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
@@ -70,7 +71,8 @@ namespace A_Little_Extra_System.Data
                         PatnerName="UniPatner",
                         UserName = "student-1",
                         Email = student1Email,
-                        EmailConfirmed = true
+                        EmailConfirmed = true,
+                        isAvtive = true,
                     };
                     await userManager.CreateAsync(newAppUser, "Coding@1234?");
                     await userManager.AddToRoleAsync(newAppUser, UserRoles.Student);
@@ -87,7 +89,8 @@ namespace A_Little_Extra_System.Data
                         PatnerName="UniPatner",
                         UserName = "student-2",
                         Email = student2Email,
-                        EmailConfirmed = true
+                        EmailConfirmed = true,
+                        isAvtive = true,
                     };
                     await userManager.CreateAsync(newAppUser, "Coding@1234?");
                     await userManager.AddToRoleAsync(newAppUser, UserRoles.Student);
@@ -105,7 +108,8 @@ namespace A_Little_Extra_System.Data
                         PatnerName="UniPatner",
                         UserName = "staff-user",
                         Email = staffEmail,
-                        EmailConfirmed = true
+                        EmailConfirmed = true,
+                        isAvtive = true,
                     };
                     await userManager.CreateAsync(newAppUser, "Coding@1234?");
                     await userManager.AddToRoleAsync(newAppUser, UserRoles.DepartmentStaff);
@@ -124,8 +128,10 @@ namespace A_Little_Extra_System.Data
                         PatnerName="UniPatner",
                         UserName = "patner-user",
                         Email = partnerEmail,
-                        EmailConfirmed = true
+                        EmailConfirmed = true,
+                        isAvtive = true,
                     };
+                    
                     await userManager.CreateAsync(newAppUser, "Coding@1234?");
                     await userManager.AddToRoleAsync(newAppUser, UserRoles.UniversityPartner);
                 }

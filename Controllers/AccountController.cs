@@ -49,7 +49,7 @@ namespace A_Little_Extra_System.Controllers
                         return RedirectToAction("Index", "Home");
                     }
                 }
-                
+
                 TempData["Error"] = "Wrong password. Please, try again!";
                 return View(login);
             }
@@ -68,7 +68,6 @@ namespace A_Little_Extra_System.Controllers
         {
             if (!ModelState.IsValid) return View(register);
 
-
             var user = await userManager.FindByEmailAsync(register.Email);
             if (user != null)
             {
@@ -76,7 +75,7 @@ namespace A_Little_Extra_System.Controllers
                 return View(register);
             }
 
-            var newUser = new User()
+            var newAppUser = new User()
             {
                 FirstName = register.FirstName,
                 LastName = register.LastName,
@@ -84,26 +83,35 @@ namespace A_Little_Extra_System.Controllers
                 UserName = (register.UserRole == UserRoles.UniversityPartner) ? register.PatnerName : register.FirstName,
                 Email = register.Email,
                 EmailConfirmed = true,
+                isAvtive = true,
                 PhoneNumber = register.PhoneNumber,
             };
 
-            var newUserResponse = await userManager.CreateAsync(newUser, register.Password);
+            var responce = await userManager.CreateAsync(newAppUser, "Coding@1234?");
 
-            if (newUserResponse.Succeeded)
-                if (register.UserRole == "1")
-                    await userManager.AddToRoleAsync(newUser, UserRoles.Student);
-                else if (register.UserRole == "2")
-                    await userManager.AddToRoleAsync(newUser, UserRoles.DepartmentStaff);
-                else
-                    await userManager.AddToRoleAsync(newUser, UserRoles.UniversityPartner);
-            else{
-                TempData["Error"] = "This email address is already in use";
+            if (responce.Succeeded)
+                switch (register.UserRole)
+                {
+                    case UserRoles.Student:
+                        await userManager.AddToRoleAsync(newAppUser, UserRoles.Student);
+                        break;
+                    case UserRoles.DepartmentStaff:
+                        await userManager.AddToRoleAsync(newAppUser, UserRoles.DepartmentStaff);
+                        break;
+                    case UserRoles.UniversityPartner:
+                        await userManager.AddToRoleAsync(newAppUser, UserRoles.UniversityPartner);
+                        break;
+                    default:
+                        break;
+                }
+            else
+            {
+                TempData["Error"] = "Something went wrong, try again";
                 return View(register);
             }
 
             TempData["Success"] = "You have been successfully registered!";
             return View(register);
-
         }
 
         public async Task<IActionResult> Logout()
@@ -114,8 +122,6 @@ namespace A_Little_Extra_System.Controllers
 
         public IActionResult Delete()
         {
-
-
             return RedirectToAction("Index", "HomeController");
         }
 

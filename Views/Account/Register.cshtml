@@ -30,9 +30,8 @@
                 <form asp-action="Register" class="row g-3">
                     <div class="col-md-12">
                         <select asp-for="UserRole" class="form-select" aria-label="Default select example" id="UserRoll"
-                            asp-items="Html.GetEnumSelectList<Users>()"></select>
+                            asp-items="Html.GetEnumSelectList<Users>()" asp-value></select>
                     </div>
-
                     <div class="col-md-12" id="PName-group" style="display: none;">
                         <label asp-for="PatnerName" class="form-label">Patner Name</label>
                         <input asp-for="PatnerName" type="text" class="form-control" id="PatnerName"
